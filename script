@@ -470,22 +470,6 @@ section:NewKeybind("Toggle HBE Keybind", "Toggles on or off HBE but using a keyb
 		toggle:UpdateToggle('Toggle HBE',true)
 	end
 end)
-local toggle2 = section:NewToggle("Toggle hitbox", "Toggles on or off hitbox.", function(state)
-	if state then
-		talgo5 = true
-	else
-		talgo5 = false
-	end
-end)
-section:NewKeybind("Toggle hitbox Keybind", "Toggles on or off hitbox but using a keybind.", Enum.KeyCode.N, function()
-	talgo5 = not talgo5
-	if talgo5 then
-		toggle2:UpdateToggle('Toggle hitbox',true)
-	else
-		toggle2:UpdateToggle('Toggle hitbox',false)
-	end
-end)
-
 
 
 local toggle = home:NewToggle("Toggle rst revenger", "Toggles on or off rst revenger.", function(state)
@@ -523,28 +507,38 @@ conv = RunService.Stepped:Connect(function()
 		end
 	end
 end)
+function madness1(val)
+	local target
+	if val == 1 then
+		target = target.Parent:FindFirstChild('Humanoid').Parent
+	else
+		target = target.Parent.Parent:FindFirstChild('Humanoid').Parent
+	end
+	if game.Players:FindFirstChild(target.Name) and target.Name ~= plr.Name then
+		if table.find(_G.team,target.Name) then
+			table.remove(_G.team,table.find(_G.team,target.Name))
+			StarterGui:SetCore("SendNotification", {
+				Title = "Player removed from list.";
+				Text = target.Name.." was removed from team list.";
+				Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
+				Duration = 4;
+			})
+		else			
+			table.insert(_G.team,target.Name)
+			StarterGui:SetCore("SendNotification", {
+				Title = "Player added to list.";
+				Text = target.Name.." was added to team list.";
+				Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
+				Duration = 4;
+			})
+		end
+	end
+end
 m.Button1Down:Connect(function()
 	local target = m.Target
-	if target.Parent:FindFirstChild('Humanoid') or target.Parent.Parent:FindFirstChild('Humanoid') and selectingteam then
-		local target = target.Parent:FindFirstChild('Humanoid').Parent or target.Parent.Parent:FindFirstChild('Humanoid').Parent
-		if game.Players:FindFirstChild(target.Name) and target.Name ~= plr.Name then
-			if table.find(_G.team,target.Name) then
-				table.remove(_G.team,table.find(_G.team,target.Name))
-				StarterGui:SetCore("SendNotification", {
-					Title = "Player removed from list.";
-					Text = target.Name.." was removed from team list.";
-					Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
-					Duration = 4;
-				})
-			else			
-				table.insert(_G.team,target.Name)
-				StarterGui:SetCore("SendNotification", {
-					Title = "Player added to list.";
-					Text = target.Name.." was added to team list.";
-					Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
-					Duration = 4;
-				})
-			end
-		end
+	if target.Parent:FindFirstChild('Humanoid') and selectingteam then
+		madness1(1)
+	elseif target.Parent.Parent:FindFirstChild('Humanoid') and selectingteam then
+		madness1(2)
 	end
 end)
