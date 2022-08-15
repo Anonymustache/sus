@@ -508,7 +508,6 @@ conv = RunService.Stepped:Connect(function()
 	end
 end)
 function madness1(val,target)
-	local target
 	if val == 1 then
 		target = target.Parent:FindFirstChild('Humanoid').Parent
 	elseif val == 2 then
