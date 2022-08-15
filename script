@@ -1,0 +1,548 @@
+goodToGo1 = false
+goodToGo2 = false
+goodToGo3 = false
+talgo4 = true
+talgo5 = false
+specmode = false
+local best = true
+local selectingteam = false
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local plr = game.Players.LocalPlayer
+local m = plr:GetMouse()
+local conv
+local box
+local StarterGui = game:GetService("StarterGui")
+_G.team = {}
+function aimbot()
+	local poguin = math.random(1,10000)
+	local timz = tick()
+	if _G.aimbot then
+		table.insert(_G.aimbot,timz..' '..poguin)
+	else
+		_G.aimbot = {timz..' '..poguin}
+	end
+
+	local distance = 10
+	plr:WaitForChild('PlayerGui'):WaitForChild('TopBar'):WaitForChild('MouseLock'):WaitForChild('ManualMouseLock').Disabled = true
+	repeat
+		wait()
+	until plr.Character ~= nil
+	local character = plr.Character
+	local con = nil
+	local hasBeenPressed = false
+	local hrp = character:WaitForChild('HumanoidRootPart')
+	local hum = character:WaitForChild('Humanoid')
+	plr.CharacterAdded:Connect(function(z)
+		plr:WaitForChild('PlayerGui'):WaitForChild('TopBar'):WaitForChild('MouseLock'):WaitForChild('ManualMouseLock').Disabled = true
+		character = z
+		hum = character:WaitForChild('Humanoid')
+		hrp = character:WaitForChild('HumanoidRootPart')
+	end)
+	local function startClicking()
+		if goodToGo1 then
+			for i,target in pairs(game.Players:GetPlayers()) do
+				pcall(function()
+					if character ~= nil and character.Humanoid ~= nil then
+						local n = 0
+						if _G.team then
+							for _, m in pairs(_G.team) do
+								if m:lower() == target.Name:lower() then
+									n += 1
+								end
+							end
+						end
+						local magnitude = (hrp.Position - target.Character.HumanoidRootPart.Position).magnitude
+						if magnitude < distance and n < 1 and target.Name ~= plr.Name and character:FindFirstChild('Humanoid') and character.Humanoid.Health>0 and target.Character.Humanoid and target.Character.Humanoid.Health > 0 and not character.Ragdoller.Ragdolled.Value and hum:GetState() ~= Enum.HumanoidStateType.Swimming then
+							--pcall(function()
+							if UIS.MouseBehavior == Enum.MouseBehavior.LockCenter then
+								workspace.CurrentCamera.CFrame = CFrame.lookAt(workspace.Camera.CFrame.Position,Vector3.new(target.Character.Head.Position.X,target.Character.Head.Position.Y,target.Character.Head.Position.Z))
+								return
+							end
+							character.HumanoidRootPart.CFrame = CFrame.lookAt(character.HumanoidRootPart.Position,Vector3.new(target.Character.HumanoidRootPart.Position.X,character.HumanoidRootPart.Position.Y,target.Character.HumanoidRootPart.Position.Z))
+							--end)
+						end
+					end
+				end)
+			end
+		end
+	end
+	local vcon
+	vcon = RunService.Heartbeat:Connect(function()
+		local m = false
+		for _, v in pairs(_G.aimbot) do
+			local args = v:split(' ')
+			if args[2] ~= poguin then
+				if tonumber(args[1]) > tonumber(timz) then
+					m = true
+					vcon:Disconnect()
+				end
+			end
+		end
+		if goodToGo1 and not m and best then
+			startClicking()
+		end
+	end)
+end
+function autoq()
+	local poguin = math.random(1,10000)
+	local timz = tick()
+	if _G.autoq then
+		table.insert(_G.autoq,timz..' '..poguin)
+	else
+		_G.autoq = {timz..' '..poguin}
+	end
+	local distance = 10
+	plr.PlayerGui.TopBar.MouseLock.ManualMouseLock.Disabled = true
+	repeat
+		wait()
+	until plr.Character ~= nil
+	local character = plr.Character
+	local debounce = false
+	local con = nil
+	local hasBeenPressed = false
+	local bl = {'FastSwing','Swing','MegaAttack','Taunt','SwingCharge'}
+	local hrp = character:WaitForChild('HumanoidRootPart')
+	local hum = character:WaitForChild('Humanoid')
+	plr.CharacterAdded:Connect(function(z)
+		plr:WaitForChild('PlayerGui'):WaitForChild('TopBar'):WaitForChild('MouseLock'):WaitForChild('ManualMouseLock').Disabled = true
+		character = z
+		hum = character:WaitForChild('Humanoid')
+		hrp = character:WaitForChild('HumanoidRootPart')
+	end)
+	local function startClicking()
+		if goodToGo2 and not _G.pog then
+			for i,target in pairs(game.Players:GetPlayers()) do
+				pcall(function()
+					local c = 0
+					for i,v in pairs(character.Humanoid:GetPlayingAnimationTracks()) do
+						for _, z in pairs(bl) do
+							if v.Name == z then
+								c += 1
+							end
+						end		
+					end
+					if c < 1 and character ~= nil and character.Humanoid ~= nil then
+						local n = 0
+						if _G.team then
+							for _, m in pairs(_G.team) do
+								if m:lower() == target.Name:lower() then
+									n += 1
+								end
+							end
+						end
+						local magnitude = (hrp.Position - target.Character.HumanoidRootPart.Position).magnitude
+						if magnitude < distance and n < 1 and target.Name ~= plr.Name and not target.Character:FindFirstChild("FF") and character:FindFirstChild('Baseball Bat') and character:FindFirstChild('Humanoid') and character.Humanoid.Health>0 and target.Character.Humanoid and target.Character.Humanoid.Health > 0 and character['Baseball Bat'].Enabled and not target.Character:FindFirstChild("ForceField") then
+							if not debounce then
+								pcall(function()
+									debounce = true
+									local b = character['Baseball Bat']
+									--hrp.CFrame = CFrame.lookAt(hrp.Position, target.Character.HumanoidRootPart.Position) * CFrame.fromEulerAnglesXYZ(0,math.rad(0),0)
+									local anim = hum:LoadAnimation(b.Animations.FastSwings)
+									hum.WalkSpeed = 0
+									hum.JumpPower = 0
+									anim:Play()
+									b.Efx:FireServer("CSound")
+									hum.AutoRotate = false
+									for i = 1,2 do
+										b.Hit:FireServer('pt5',5,3,0.03,hrp.CFrame.lookVector * 10,Vector3.new(0, math.random(-2, 2), math.random(-10, 10)),target.Character,true)
+										wait(.05)	
+									end
+									hum.WalkSpeed = 16
+									hum.JumpPower = 50
+									anim:Stop()
+									b.Enabled = false
+									hum.SH.WalkSpeed = 13;
+									hum.SH.JumpPower = 35;
+									hum.WalkSpeed = 13;
+									hum.JumpPower = 35;
+									hum.AutoRotate = true;
+									delay(1, function()
+										hum.SH.WalkSpeed = 16;
+										hum.SH.JumpPower = 50;
+										hum.WalkSpeed = 16;
+										hum.JumpPower = 50;
+									end)
+									delay(4, function()
+										b.Enabled = true
+									end)
+									if plr.Backpack:FindFirstChild('Baseball Bat') then
+										plr.Backpack['Baseball Bat'].Efx:FireServer("CSoundStop")
+									else
+										b.Efx:FireServer("CSoundStop")
+									end
+									wait(5.5)
+									debounce = false
+								end)	
+							end
+						end
+					end
+				end)
+			end
+		end
+	end
+	local vcon
+	vcon = RunService.Heartbeat:Connect(function()
+		local m = false
+		for _, v in pairs(_G.autoq) do
+			local args = v:split(' ')
+			if args[2] ~= poguin then
+				if tonumber(args[1]) > tonumber(timz) then
+					m = true
+					vcon:Disconnect()
+				end
+			end
+		end
+		if goodToGo2 and not m and best then
+			startClicking()
+		end
+	end)
+end
+function autob()
+	plr.PlayerGui.TopBar.MouseLock.ManualMouseLock.Disabled = true
+	repeat
+		wait()
+	until plr.Character
+	_G.Pog = false
+	local char = plr.Character
+	local status = char:WaitForChild('Ragdoller').Ragdolled
+	local hum = char:WaitForChild('Humanoid')
+	local hrp = char:WaitForChild('HumanoidRootPart')
+	plr.CharacterAdded:Connect(function(z)
+		plr:WaitForChild('PlayerGui'):WaitForChild('TopBar'):WaitForChild('MouseLock'):WaitForChild('ManualMouseLock').Disabled = true
+		char = z
+		status = char:WaitForChild('Ragdoller').Ragdolled
+		hum = char:WaitForChild('Humanoid')
+		hrp = char:WaitForChild('HumanoidRootPart')
+	end)
+	local function pog(target)
+		_G.pog = true
+		local b = char['Baseball Bat']
+		local anim = hum:LoadAnimation(b.Animations.FastSwings)
+		anim:Play()
+		b.Efx:FireServer("CSound")
+		hum.AutoRotate = false
+		for i = 1,2 do
+			b.Hit:FireServer('pt5',5,3,0.03,hrp.CFrame.lookVector * 10,Vector3.new(0, math.random(-2, 2), math.random(-10, 10)),target.Character,true)
+			wait(.05)	
+		end
+		anim:Stop()
+		b.Enabled = false
+		if plr.Backpack:FindFirstChild('Baseball Bat') then
+			plr.Backpack['Baseball Bat'].Efx:FireServer("CSoundStop")
+		else
+			b.Efx:FireServer("CSoundStop")
+		end
+		hum.SH.WalkSpeed = 13;
+		hum.SH.JumpPower = 35;
+		hum.WalkSpeed = 13;
+		hum.JumpPower = 35;
+		hum.AutoRotate = true;
+		delay(1, function()
+			hum.SH.WalkSpeed = 16;
+			hum.SH.JumpPower = 50;
+			hum.WalkSpeed = 16;
+			hum.JumpPower = 50;
+		end)
+		delay(4, function()
+			b.Enabled = true
+		end)
+		_G.pog = false
+	end
+	while wait(.1) do
+		if status.Value and hum.Health ~= 0 and goodToGo3 and best then
+			repeat
+				wait()
+			until not status.Value
+			if goodToGo3 then
+				for _, target in pairs(game.Players:GetPlayers()) do
+					if target ~= plr and target.Character and target.Character:FindFirstChild("HumanoidRootPart") and (target.Character.HumanoidRootPart.Position - hrp.Position).magnitude < 13 and target.Character.Humanoid.Health > 0 and not target.Character:FindFirstChild("ForceField") then
+						local n = 0
+						if _G.team then
+							for _, m in pairs(_G.team) do
+								if m:lower() == target.Name:lower() then
+									n += 1
+								end
+							end
+						end
+						if plr.Backpack:FindFirstChild('Baseball Bat') and n < 1 then
+							if plr.Backpack['Baseball Bat'].Enabled then
+								plr.Backpack['Baseball Bat'].Parent = char
+								pog(target)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+function hbe()
+	local poguin = math.random(1,10000)
+	local timz = tick()
+	if _G.hbe then
+		table.insert(_G.hbe,timz..' '..poguin)
+	else
+		_G.hbe = {timz..' '..poguin}
+	end
+	local function searchtools(tool)
+		if plr.Backpack:FindFirstChild(tool) then
+			return plr.Backpack[tool]
+		elseif plr.Character:FindFirstChild(tool) then
+			return plr.Character[tool]
+		end
+	end
+	local function decreasetool(tool)
+		tool.HitPart.CustomPhysicalProperties = PhysicalProperties.new(0,.1,1,1,1)
+		tool.HitPart.Size = Vector3.new(1, 2, 1)
+	end
+	local function recreasetool(tool)
+		tool.HitPart.Size = Vector3.new(3, 2, 1.1)
+	end
+	local function box(tool)
+		local box = Instance.new('SelectionBox',tool.HitPart)
+		box.Name = 'MadBox'
+		box.Adornee = tool.HitPart
+	end
+	local function unbox(tool)
+		tool.HitPart.MadBox:Destroy()
+	end
+	local vcon
+	vcon = RunService.Stepped:Connect(function()
+		local m = false
+		for _, v in pairs(_G.hbe) do
+			local args = v:split(' ')
+			if args[2] ~= poguin then
+				if tonumber(args[1]) > tonumber(timz) then
+					m = true
+					vcon:Disconnect()
+				end
+			end
+		end
+		if not m and best then
+			pcall(function()
+				if talgo4 then
+					decreasetool(searchtools('Punch'))
+					decreasetool(searchtools('Haymaker'))
+					decreasetool(searchtools('Uppercut'))
+				else
+					recreasetool(searchtools('Punch'))
+					recreasetool(searchtools('Haymaker'))
+					recreasetool(searchtools('Uppercut'))
+				end
+				if talgo5 then
+					box(searchtools('Punch'))
+					box(searchtools('Haymaker'))
+					box(searchtools('Uppercut'))
+					box(searchtools('Kick'))
+				else
+					unbox(searchtools('Punch'))
+					unbox(searchtools('Haymaker'))
+					unbox(searchtools('Uppercut'))
+					unbox(searchtools('Kick'))
+				end
+			end)
+		end
+	end)
+end
+function convertvalues(val)
+	if val == true then
+		return 'on'
+	else
+		return 'off'
+	end
+end
+spawn(aimbot)
+spawn(autoq)
+spawn(autob)
+spawn(hbe)
+game.CoreGui.ChildRemoved:Connect(function(c)
+	if c:FindFirstChild('BlurFrame') then
+		best = false
+	end
+end)
+
+game:GetService('UserInputService').InputBegan:Connect(function(key,chat)
+	if chat then return end
+	if key.KeyCode == Enum.KeyCode.M and specmode then
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(":spectate",'All')
+	end
+end)
+
+local revenger = loadstring(game:HttpGet("https://raw.githubusercontent.com/Anonymustache/RST-revenger/main/script"))()
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+UIS.InputBegan:Connect(function(key,chat)
+	if chat then return end
+	if key.KeyCode == Enum.KeyCode.End then
+		lib:ToggleUI()
+	end
+end)
+
+local wd = lib.CreateLib("Madness RST", "Serpent")
+
+local tab = wd:NewTab('Main')
+local home = tab:NewSection('End to toggle on/off ui')
+local toggle = home:NewToggle("Toggle team selecting", "Toggles on or off team selecting.", function(state)
+	if state then
+		selectingteam = true
+	else
+		selectingteam = false
+	end
+end)
+
+-- aimbot
+
+local tab = wd:NewTab('Aimbot')
+local section = tab:NewSection('End to toggle on/off ui')
+local toggle = section:NewToggle("Toggle Aimbot", "Toggles on or off aimbot.", function(state)
+	if state then
+		goodToGo1 = true
+	else
+		goodToGo1 = false
+	end
+end)
+section:NewKeybind("Toggle Aimbot Keybind", "Toggles on or off aimbot but using a keybind.", Enum.KeyCode.Z, function()
+	goodToGo1 = not goodToGo1
+	if goodToGo1 then
+		toggle:UpdateToggle('Toggle Aimbot',true)
+	else
+		toggle:UpdateToggle('Toggle Aimbot',false)
+	end
+end)
+
+-- auto q
+
+local tab = wd:NewTab('Auto Q')
+local section = tab:NewSection('End to toggle on/off ui')
+local toggle = section:NewToggle("Toggle Auto Q", "Toggles on or off Auto Q.", function(state)
+	if state then
+		goodToGo2 = true
+	else
+		goodToGo2 = false
+	end
+end)
+section:NewKeybind("Toggle Auto Q Keybind", "Toggles on or off Auto Q but using a keybind.", Enum.KeyCode.X, function()
+	goodToGo2 = not goodToGo2
+	if goodToGo2 then
+		toggle:UpdateToggle('Toggle Auto Q',true)
+	else
+		toggle:UpdateToggle('Toggle Auto Q',false)
+	end
+end)
+
+-- auto b
+
+local tab = wd:NewTab('Auto B')
+local section = tab:NewSection('End to toggle on/off ui')
+local toggle = section:NewToggle("Toggle Auto B", "Toggles on or off Auto B.", function(state)
+	if state then
+		goodToGo3 = true
+	else
+		goodToGo3 = false
+	end
+end)
+section:NewKeybind("Toggle Auto B Keybind", "Toggles on or off Auto B but using a keybind.", Enum.KeyCode.C, function()
+	goodToGo3 = not goodToGo3
+	if goodToGo3 then
+		toggle:UpdateToggle('Toggle Auto B',true)
+	else
+		toggle:UpdateToggle('Toggle Auto B',false)
+	end
+end)
+
+
+
+local tab = wd:NewTab('HBE')
+local section = tab:NewSection('End to toggle on/off ui')
+local toggle = section:NewToggle("Toggle HBE", "Toggles on or off HBE.", function(state)
+	if state then
+		talgo4 = false
+	else
+		talgo4 = true
+	end
+end)
+section:NewKeybind("Toggle HBE Keybind", "Toggles on or off HBE but using a keybind.", Enum.KeyCode.B, function()
+	talgo4 = not talgo4
+	if talgo4 then
+		toggle:UpdateToggle('Toggle HBE',false)
+	else
+		toggle:UpdateToggle('Toggle HBE',true)
+	end
+end)
+local toggle2 = section:NewToggle("Toggle hitbox", "Toggles on or off hitbox.", function(state)
+	if state then
+		talgo5 = true
+	else
+		talgo5 = false
+	end
+end)
+section:NewKeybind("Toggle hitbox Keybind", "Toggles on or off hitbox but using a keybind.", Enum.KeyCode.N, function()
+	talgo5 = not talgo5
+	if talgo5 then
+		toggle2:UpdateToggle('Toggle hitbox',true)
+	else
+		toggle2:UpdateToggle('Toggle hitbox',false)
+	end
+end)
+
+
+
+local toggle = home:NewToggle("Toggle rst revenger", "Toggles on or off rst revenger.", function(state)
+	if state then
+		game.CoreGui.Core.Enabled = true
+	else
+		game.CoreGui.Core.Enabled = false
+	end
+end)
+
+
+local toggle = home:NewToggle("Toggle M spectate", "Toggles on or off automatic spectate on M press.", function(state)
+	if state then
+		specmode = true
+	else
+		specmode = false
+	end
+end)
+-- team selector
+
+
+
+conv = RunService.Stepped:Connect(function()
+	if not best then
+		conv:Disconnect()
+	else
+		if box then
+			box:Destroy()
+		end
+		if selectingteam then
+			if m.Target ~= nil then
+				box = Instance.new('SelectionBox',m.Target)
+				box.Adornee = m.Target
+			end
+		end
+	end
+end)
+m.Button1Down:Connect(function()
+	local target = m.Target
+	if target.Parent:FindFirstChild('Humanoid') or target.Parent.Parent:FindFirstChild('Humanoid') then
+		local target = target.Parent:FindFirstChild('Humanoid').Parent or target.Parent.Parent:FindFirstChild('Humanoid').Parent
+		if table.find(_G.team,target.Name) and game.Players:FindFirstChild(target.Name) and target.Name ~= plr.Name then
+			table.remove(_G.team,table.find(_G.team,target.Name))
+			StarterGui:SetCore("SendNotification", {
+				Title = "Player removed from list.";
+				Text = target.Name.." was removed from team list.";
+				Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
+				Duration = 4;
+			})
+		else			
+			table.insert(_G.team,target.Name)
+			StarterGui:SetCore("SendNotification", {
+				Title = "Player added to list.";
+				Text = target.Name.." was added to team list.";
+				Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
+				Duration = 4;
+			})
+		end
+	end
+end)
