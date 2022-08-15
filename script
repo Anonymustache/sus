@@ -93,7 +93,7 @@ function autoq()
 		_G.autoq = {timz..' '..poguin}
 	end
 	local distance = 10
-	plr.PlayerGui.TopBar.MouseLock.ManualMouseLock.Disabled = true
+	plr.PlayerGui:WaitForChild('TopBar'):WaitForChild('MouseLock'):WaitForChild('ManualMouseLock').Disabled = true
 	repeat
 		wait()
 	until plr.Character ~= nil
@@ -199,7 +199,7 @@ function autoq()
 	end)
 end
 function autob()
-	plr.PlayerGui.TopBar.MouseLock.ManualMouseLock.Disabled = true
+	plr.PlayerGui:WaitForChild('TopBar'):WaitForChild('MouseLock'):WaitForChild('ManualMouseLock').Disabled = true
 	repeat
 		wait()
 	until plr.Character
