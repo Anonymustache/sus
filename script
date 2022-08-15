@@ -68,7 +68,7 @@ function aimbot()
 		end
 	end
 	local vcon
-	vcon = RunService.Heartbeat:Connect(function()
+	vcon = RunService.Stepped:Connect(function()
 		local m = false
 		for _, v in pairs(_G.aimbot) do
 			local args = v:split(' ')
@@ -182,7 +182,7 @@ function autoq()
 		end
 	end
 	local vcon
-	vcon = RunService.Heartbeat:Connect(function()
+	vcon = RunService.Stepped:Connect(function()
 		local m = false
 		for _, v in pairs(_G.autoq) do
 			local args = v:split(' ')
@@ -525,24 +525,26 @@ conv = RunService.Stepped:Connect(function()
 end)
 m.Button1Down:Connect(function()
 	local target = m.Target
-	if target.Parent:FindFirstChild('Humanoid') or target.Parent.Parent:FindFirstChild('Humanoid') then
+	if target.Parent:FindFirstChild('Humanoid') or target.Parent.Parent:FindFirstChild('Humanoid') and selectingteam then
 		local target = target.Parent:FindFirstChild('Humanoid').Parent or target.Parent.Parent:FindFirstChild('Humanoid').Parent
-		if table.find(_G.team,target.Name) and game.Players:FindFirstChild(target.Name) and target.Name ~= plr.Name then
-			table.remove(_G.team,table.find(_G.team,target.Name))
-			StarterGui:SetCore("SendNotification", {
-				Title = "Player removed from list.";
-				Text = target.Name.." was removed from team list.";
-				Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
-				Duration = 4;
-			})
-		else			
-			table.insert(_G.team,target.Name)
-			StarterGui:SetCore("SendNotification", {
-				Title = "Player added to list.";
-				Text = target.Name.." was added to team list.";
-				Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
-				Duration = 4;
-			})
+		if game.Players:FindFirstChild(target.Name) and target.Name ~= plr.Name then
+			if table.find(_G.team,target.Name) then
+				table.remove(_G.team,table.find(_G.team,target.Name))
+				StarterGui:SetCore("SendNotification", {
+					Title = "Player removed from list.";
+					Text = target.Name.." was removed from team list.";
+					Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
+					Duration = 4;
+				})
+			else			
+				table.insert(_G.team,target.Name)
+				StarterGui:SetCore("SendNotification", {
+					Title = "Player added to list.";
+					Text = target.Name.." was added to team list.";
+					Icon = game.Players:GetUserThumbnailAsync(game.Players[target.Name].UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size150x150);
+					Duration = 4;
+				})
+			end
 		end
 	end
 end)
