@@ -507,11 +507,11 @@ conv = RunService.Stepped:Connect(function()
 		end
 	end
 end)
-function madness1(val)
+function madness1(val,target)
 	local target
 	if val == 1 then
 		target = target.Parent:FindFirstChild('Humanoid').Parent
-	else
+	elseif val == 2 then
 		target = target.Parent.Parent:FindFirstChild('Humanoid').Parent
 	end
 	if game.Players:FindFirstChild(target.Name) and target.Name ~= plr.Name then
@@ -537,8 +537,8 @@ end
 m.Button1Down:Connect(function()
 	local target = m.Target
 	if target.Parent:FindFirstChild('Humanoid') and selectingteam then
-		madness1(1)
+		madness1(1,target)
 	elseif target.Parent.Parent:FindFirstChild('Humanoid') and selectingteam then
-		madness1(2)
+		madness1(2,target)
 	end
 end)
