@@ -536,9 +536,11 @@ function madness1(val,target)
 end
 m.Button1Down:Connect(function()
 	local target = m.Target
-	if target.Parent:FindFirstChild('Humanoid') and selectingteam then
-		madness1(1,target)
-	elseif target.Parent.Parent:FindFirstChild('Humanoid') and selectingteam then
-		madness1(2,target)
+	if target ~= nil then
+		if target.Parent:FindFirstChild('Humanoid') and selectingteam then
+			madness1(1,target)
+		elseif target.Parent.Parent:FindFirstChild('Humanoid') and selectingteam then
+			madness1(2,target)
+		end
 	end
 end)
